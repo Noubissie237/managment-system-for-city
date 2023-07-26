@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '../staticfiles/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '../staticfiles/css/bootstrap.min.css.map' %}">
+    <link rel="stylesheet" href="{% static '../staticfiles/css/index.css' %}">
+    <title>Home</title>
+</head>
+<body>
+    <div class="container">
+        <div id="Total">
+            <nav class="nav nav-pills mt-3">
+                <button type="button" id="total" class="nav-link active " aria-current="page">Total</button>
+                <button onclick="listDispo()" type="button" id="dispo" class="nav-link " >Disponibles</button>
+                <button onclick="listOccup()" type="button" id="occup" class="nav-link " >Occupés</button>
+            </nav>
+            <h2 align="center" class="mt-5 text-primary">LISTE TOTAL DE LOGEMENT ({{nbreT}})</h2>
+    
+            <table class="table table-striped table-primary table-hover mt-5 text-center">
+                <tr>
+                    <th class="text-primary">Id Logement</th>
+                    <th class="text-primary">Type</th>
+                    <th class="text-primary">Numero</th>
+                    <th class="text-primary">Localisation</th>
+                    <th class="text-primary">Etat</th>
+                </tr>
+                {% for elt in listTot %}
+                    <tr>
+                        <th>{{elt.id_logement}}</th>
+                        <td>{{elt.type}}</td>
+                        <td>{{elt.numero}}</td>
+                        <td>{{elt.localisation}}</td>
+                        <td>{{elt.etat}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div id="Dispo">
+            <nav class="nav nav-pills mt-3">
+                <button onclick="listTotal()" type="button" id="total" class="nav-link">Total</button>
+                <button type="button" id="dispo" class="nav-link active" aria-current="page">Disponibles</button>
+                <button onclick="listOccup()" type="button" id="occup" class="nav-link " >Occupés</button>
+            </nav>
+            <h2 align="center" class="mt-5 text-primary">LISTE DE LOGEMENTS DISPONIBLES ({{nbreD}})</h2>
+    
+            <table class="table table-striped table-success table-hover mt-5 text-center">
+                <tr>
+                    <th class="text-primary">Id Logement</th>
+                    <th class="text-primary">Type</th>
+                    <th class="text-primary">Numero</th>
+                    <th class="text-primary">Localisation</th>
+                    <th class="text-primary">Etat</th>
+                </tr>
+                {% for elt in listDisp %}
+                    <tr>
+                        <th>{{elt.id_logement}}</th>
+                        <td>{{elt.type}}</td>
+                        <td>{{elt.numero}}</td>
+                        <td>{{elt.localisation}}</td>
+                        <td>{{elt.etat}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div id="Occup">
+            <nav class="nav nav-pills mt-3">
+                <button onclick="listTotal()" type="button" id="total" class="nav-link">Total</button>
+                <button onclick="listDispo()" type="button" id="dispo" class="nav-link">Disponibles</button>
+                <button type="button" id="occup" class="nav-link active" aria-current="page" >Occupés</button>
+            </nav>
+            <h2 align="center" class="mt-5 text-primary">LISTE DE LOGEMENTS OCCUPÉS ({{nbreO}})</h2>
+    
+            <table class="table table-striped table-danger table-hover mt-5 text-center">
+                <tr>
+                    <th class="text-primary">Id Logement</th>
+                    <th class="text-primary">Type</th>
+                    <th class="text-primary">Numero</th>
+                    <th class="text-primary">Localisation</th>
+                    <th class="text-primary">Etat</th>
+                </tr>
+                {% for elt in listOcc %}
+                    <tr>
+                        <th>{{elt.id_logement}}</th>
+                        <td>{{elt.type}}</td>
+                        <td>{{elt.numero}}</td>
+                        <td>{{elt.localisation}}</td>
+                        <td>{{elt.etat}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div> 
+
+    <script src="{% static '../staticfiles/js/bootstrap.bundle.min.js' %}" ></script>
+    <script src="{% static '../staticfiles/js/bootstrap.bundle.min.js.map'%}" ></script>
+    <script src="{% static '../staticfiles/js/index.js' %}"></script>
+</body>
+</html>

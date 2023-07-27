@@ -33,9 +33,15 @@ class Etudiant(models.Model):
     def __str__(self):
         return self.matricule
 
+class Etat(models.Model):
+    designation = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.designation 
+
 class Logement(models.Model):
     id_logement = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=75)
+    type = models.ForeignKey('Etat', models.CASCADE, db_column='designation')
     numero = models.IntegerField()
     localisation = models.CharField(max_length=75)
     etat = models.CharField(max_length=75)
@@ -67,5 +73,4 @@ class Occuper(models.Model):
         db_table = 'Occuper'
         unique_together = (('id_etudiant', 'id_logement'),)
 
-    
     

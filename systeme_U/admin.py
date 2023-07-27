@@ -14,6 +14,7 @@ class AdminEtudiant(admin.ModelAdmin):
 class AdminOccuper(admin.ModelAdmin):
     list_display = ('id_etudiant', 'id_logement')
 
+
 admin.site.register(Administrateur, AdminAdministrateur)
 admin.site.register(Etudiant, AdminEtudiant)
 admin.site.register(Logement, AdminLogement)

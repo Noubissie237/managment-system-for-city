@@ -41,36 +41,30 @@ class Etat(models.Model):
 
 class Logement(models.Model):
     id_logement = models.AutoField(primary_key=True)
-    type = models.ForeignKey('Etat', models.CASCADE, db_column='designation')
+    type = models.CharField(max_length=75)
     numero = models.IntegerField()
     localisation = models.CharField(max_length=75)
     etat = models.CharField(max_length=75)
-    #qrcode = models.ImageField(upload_to='qr_code', null=True, blank=True)
+    qrcode = models.ImageField(upload_to='qrcode', null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        qr_image = qrcode.make(self.numero)
+        canvas = Image.new('RGB', (qr_image.pixel_size, qr_image.pixel_size), 'white')
+        draw = ImageDraw.Draw(canvas)
+        canvas.paste(qr_image)
+        file_name = f"qrcode-{self.numero}.png"
+        buffer = BytesIO()
+        canvas.save(buffer, 'PNG')
+        self.qrcode.save(file_name, File(buffer), save=False)
+        canvas.close()
+        return super().save(*args, **kwargs)
     class Meta:
         db_table = 'Logement'
 
-    def __int__(self):
-        return self.numero
-
-    # def save(self, *args, **kwargs):
-    #     qr_image = qrcode.make(self.id_logement)
-    #     canvas = Image.new('RGB', (qr_image.pixel_size, qr_image.pixel_size), 'white')
-    #     draw = ImageDraw.Draw(canvas)
-    #     canvas.paste(qr_image)
-    #     file_name = f"qr_code-{self.id_logement}.png"
-    #     buffer = BytesIO()
-    #     canvas.save(buffer, 'PNG')
-    #     self.qr_code.save(file_name, File(buffer), save=False)
-    #     canvas.close()
-    #     return super().save(*args, **kwargs)
-
 class Occuper(models.Model):
     id_etudiant = models.ForeignKey('Etudiant', models.CASCADE, db_column='id_etudiant')
-    id_logement = models.ForeignKey('Logement', models.CASCADE, db_column='id_logement')   
-
+    id_logement = models.ForeignKey('Logement', models.CASCADE, db_column='id_logement')    
     class Meta:
         db_table = 'Occuper'
         unique_together = (('id_etudiant', 'id_logement'),)
-
     

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .forms import *
 from .models import Logement
 from .models import Occuper
 
@@ -39,4 +40,12 @@ def logement(request):
     }
 
     return render(request, 'index.html', dataset)
-    
+
+def funct_logement(request):
+    if request.method == 'POST':
+        fm = Register_log(request.POST)
+        if fm.is_valid():
+            fm.save() 
+    else:
+        fm = Register_log()
+    return render(request, 'logement.html',{'form':fm})
